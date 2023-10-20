@@ -105,7 +105,7 @@ export const getActivities = () => {
         console.log(activities)
         const allActivities = activities.data;
 
-        console.log("desde las actions "+allActivities)
+        //console.log("desde las actions "+allActivities)
 
         dispatch({type: GET_ACTIVITIES, payload: allActivities})
     }
@@ -114,11 +114,11 @@ export const getActivities = () => {
 export const  postActivity = (activity) => {
    
     return async(dispatch) => {
-        console.log("desde las actions"+activity)
+        //console.log("desde las actions"+activity)
        const postActivity = await axios.post("http://localhost:3001/activities",activity)
       
        const newActivity = postActivity.data;
-       console.log(newActivity)
+       //console.log(newActivity)
 
        dispatch({type: POST_ACTIVITY, payload: newActivity})
     }

@@ -106,7 +106,7 @@ const rootReducer = (state= initialState,action) =>{
             }) }
 
         case GET_ACTIVITIES:
-            
+            console.log(action.payload)
             return {...state, activities: action.payload }
 
         case EMPTY_FILTERED_ACTIVITIES:
@@ -115,15 +115,17 @@ const rootReducer = (state= initialState,action) =>{
 
         case POST_ACTIVITY:
 
-            return {...state, activities: action.payload}
+            return {...state, activities:[...state.activities, action.payload]}
             
 
         default:
             return {...state}
             
     }
+    
 
 }
+
 
 export default rootReducer;
 

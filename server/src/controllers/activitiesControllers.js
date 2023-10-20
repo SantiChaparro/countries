@@ -32,7 +32,7 @@ const createActivity = async(nombre,dificultad,duracion,temporada,paises) => {
     const newActivity = await Activity.create({nombre,dificultad,duracion,temporada});
 
     newActivity.addCountries(paises);
-
+    //console.log(newActivity)
     return newActivity;
 };
 

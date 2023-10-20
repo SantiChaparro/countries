@@ -22,10 +22,10 @@ const CardsContainer = (props) => {
     const filterActivities = useSelector(state=>state.filteredByActivity);
     const allActivities = useSelector(state=>state.activities);
    // console.log(countries)
-    //console.log(orderedCountries)
-    //console.log("paises filtradospor actividad"+filterActivities)
-    //console.log("paises filtrados por continente"+filterCountries)
-    console.log(JSON.stringify(allActivities))
+  
+    //console.log(JSON.stringify(allActivities))
+    console.log("cardsc"+allActivities)
+    console.log("hola")
    // console.log(typeof orderedCountries)
     //console.log(orderedCountries)
    

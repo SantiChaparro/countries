@@ -51,7 +51,7 @@ const Form = () => {
         dificultad:"",
         duracion:"",
         temporada:"",
-        Countries:[]
+        paises:[]
     })
 
     const[errors,setErrors] = useState({
@@ -59,7 +59,7 @@ const Form = () => {
         dificultad:"",
         duracion:"",
         temporada:"",
-        Countries:[]
+        paises:[]
     });
 
     const [newCountry,setNewCountry] = useState("");
@@ -78,9 +78,10 @@ const Form = () => {
 
     const handleAddCountry = () => {
         setForm(prevForm =>({...prevForm, paises: Array.isArray(prevForm.paises) ? [...prevForm.paises, newCountry] : [newCountry]}))
+        
     }
 
-
+    console.log(form.paises)
 
     const handleSubmitButton = (event) => {
 
@@ -90,7 +91,7 @@ const Form = () => {
        console.log(typeof form.dificultad)
        console.log(typeof form.duracion)
        console.log(typeof form.temporada)
-       console.log(Array.isArray(form.Countries));
+       console.log(Array.isArray(form.paises));
         
     };
 
