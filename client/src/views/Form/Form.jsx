@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { postActivity } from "../../redux/actions";
+import { getCountry, empyStateCountry } from "../../redux/actions";
 
 const validateForm = (form,setErrors,errors) => {
     const nameRegex = /^[a-zA-Z]+$/;
@@ -45,6 +46,14 @@ const validateForm = (form,setErrors,errors) => {
 
 const Form = () => {
 
+    const country = useSelector(state=>state.country);
+
+    //console.log(country)
+    if(country.length > 0){
+        console.log(country[0].id)
+    }
+   
+
     const [form,setForm] = useState({
 
         nombre:"",
@@ -62,9 +71,21 @@ const Form = () => {
         paises:[]
     });
 
-    const [newCountry,setNewCountry] = useState("");
+    const [input,setInput] = useState("");
+
+    //const [newCountry,setNewCountry] = useState("");
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (country && country.length > 0) {
+          setForm((prevForm) => ({
+            ...prevForm,
+            paises: [...prevForm.paises, country[0].id],
+          }));
+        }
+      }, [country]);
+
 
     const handleFormChange = (event) => {
         const {name,value} = event.target;
@@ -75,23 +96,27 @@ const Form = () => {
         const errors = validateForm({ ...form, [name]: parsedValue });
         setErrors(errors);
     };
+    
+    const handleNameChange = (event) => {
+        setInput(event.target.value);
+        
+    };
+    console.log(input)
 
     const handleAddCountry = () => {
-        setForm(prevForm =>({...prevForm, paises: Array.isArray(prevForm.paises) ? [...prevForm.paises, newCountry] : [newCountry]}))
-        
-    }
-
-    console.log(form.paises)
+        dispatch(getCountry(input))
+      };
+     console.log(form.paises)
+      
+ 
+     console.log(country)
 
     const handleSubmitButton = (event) => {
 
         event.preventDefault();
-        dispatch(postActivity(form));//
-        console.log(form)
-       console.log(typeof form.dificultad)
-       console.log(typeof form.duracion)
-       console.log(typeof form.temporada)
-       console.log(Array.isArray(form.paises));
+        dispatch(postActivity(form));
+        dispatch(empyStateCountry());
+        console.log(country)
         
     };
 
@@ -129,10 +154,10 @@ const Form = () => {
             </div>
             <div>
                 <label name="paises">Paises </label>
-                <input type="text" value={newCountry} name="paises" onChange={(e)=>{setNewCountry(e.target.value)}} />
+                <input type="search" value={input} name="paises" onChange={handleNameChange} />
                
                 <div>
-                    <button type="button" onClick={handleAddCountry}>AGREGAR PAIS</button>
+                    <button type="button" onClick={handleAddCountry} >AGREGAR PAIS</button>
                 </div>
             </div>
             <div>
@@ -149,4 +174,6 @@ export default Form;
                     <label>PAISES AGREGADOS</label>
                     {form.Countries?.map((pais)=>(<li key={pais}>{pais}</li>))}
                 </div>
+
+                setForm(prevForm =>({...prevForm, paises: Array.isArray(prevForm.paises) ? [...prevForm.paises, country[0].id] : [country[0].id]}))
  */

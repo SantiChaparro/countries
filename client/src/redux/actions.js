@@ -27,12 +27,13 @@ export const getCountries = (startIndex,endIndex) => {
 
 
 export const getCountry = (name) => {
-    //console.log(name)
+    console.log("el name recibido desde el front"+" "+name)
     return async function(dispatch){
         const countryByName = await axios.get(`http://localhost:3001/countries?nombre=${name}`);
 
         const country = countryByName.data;
-       // console.log(country)
+        console.log("Respuesta de axios"+" "+country)
+        console.log(typeof country)
         dispatch({type: GET_COUNTRY, payload: country});
     }
 };

@@ -21,13 +21,10 @@ const CardsContainer = (props) => {
     const orderedCountries = useSelector(state=>state.orderedCountries);
     const filterActivities = useSelector(state=>state.filteredByActivity);
     const allActivities = useSelector(state=>state.activities);
-   // console.log(countries)
-  
-    //console.log(JSON.stringify(allActivities))
+   
     console.log("cardsc"+allActivities)
     console.log("hola")
-   // console.log(typeof orderedCountries)
-    //console.log(orderedCountries)
+  
    
 
     const [order,setOrder] = useState("");
@@ -72,17 +69,20 @@ const CardsContainer = (props) => {
       
         <div>
           <div>
-            <select name="continentes" onChange={handleContinent}>
-              {continents?.map((continente)=>{
-                return <option value={continente}>{continente}</option>
-              })}
-            </select>
-            <select name="actividades" onChange={handleActivities}>
-              {allActivities?.map((actividad)=>{
-                return <option value={actividad.nombre}>{actividad.nombre}</option>
-              })}
-            </select>
-            <button onClick={handleResetButton}>RESET</button>
+            <div >
+              <select name="continentes" onChange={handleContinent}>
+                {continents?.map((continente)=>{
+                  return <option value={continente}>{continente}</option>
+                })}
+              </select>
+              <select name="actividades" onChange={handleActivities}>
+                {allActivities?.map((actividad)=>{
+                  return <option value={actividad.nombre}>{actividad.nombre}</option>
+                })}
+              </select>
+            </div>
+           
+            
           <div>
             <input type="radio" name="sortBy" value="nombre" onChange={()=>{setSortBy("nombre")}} />
             <label>Nombre pais</label>
@@ -92,9 +92,13 @@ const CardsContainer = (props) => {
               <option value="Ascendente">Ascendente</option>
               <option value="Descendente">Descendente</option>
             </select>
-            <button onClick={handleOrderClick}>ORDENAR</button>
+            
+            
           </div>  
-           
+          <div>
+              <button onClick={handleOrderClick}>ORDENAR</button>
+              <button onClick={handleResetButton}>RESET</button>
+          </div>
             
           </div>
           <div className={style.CardsContainer}>

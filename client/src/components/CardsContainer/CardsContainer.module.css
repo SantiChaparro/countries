@@ -5,5 +5,11 @@
     justify-content: space-between;
     gap: 1em;
     flex-wrap: wrap;
+    padding: 2em;
+    background-color: #474b4e;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columnas iguales */
+    grid-template-rows: repeat(2, 1fr); /* 2 filas iguales */
+    gap: 10px; /* Espaciado entre elementos */
    
 }

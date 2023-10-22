@@ -1,7 +1,47 @@
 .Card{
- 
+    display: flex;
+    flex-direction: column;
     border: 1px solid black;border-radius: 10px;
-    width: fit-content;
+    width: 250px;
     height: fit-content;
+    align-items: center;
+    justify-content: center;
 
 }
+
+.Card img {
+    max-width: 200px; /* Establece el ancho máximo de las imágenes al 100% del contenedor */
+    height: 150px; /* Mantiene la proporción de aspecto de las imágenes */
+    margin-bottom: 10px; /* Espaciado inferior entre la imagen y los textos */
+    border-radius: 10px;
+    margin-top: 10px;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.8);
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.8);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+   
+    
+}
+
+.Card img:hover {
+    transform: scale(1.1); /* Aumenta el tamaño de la imagen al 110% cuando está en hover */
+}
+
+.Card p {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    color: whitesmoke
+    /* Otros estilos que desees aplicar a las etiquetas <p> */
+}
+
+
+
+
+
+
+
+
+
+
+ 
+ 
