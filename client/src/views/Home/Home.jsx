@@ -2,6 +2,7 @@ import CardsContainer from "../../components/CardsContainer/CardsContainer";
 import { useEffect } from "react";
 import { getCountries } from "../../redux/actions";
 import { getActivities } from "../../redux/actions";
+import { getTotalCountries } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 
@@ -16,9 +17,10 @@ const Home = () => {
         //volve getcountries() si no funciona
         dispatch(getCountries(startIndex,endIndex));
         dispatch(getActivities());
+        dispatch(getTotalCountries());
     },[])
 
-    //borra esto si no funciona
+    
     const handleNextClick = () => {
         const newStartIndex = endIndex;
         const newEndIndex = endIndex + 10;
@@ -39,7 +41,6 @@ const Home = () => {
 
     return(
         <div>
-            <h1>Home</h1>
             <CardsContainer handleNextClick={handleNextClick} handlePrevClick={handlePrevClick} startIndex={startIndex}/>  
         </div>
         

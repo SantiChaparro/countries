@@ -17,23 +17,20 @@ import { countriesFiltered,
 const CardsContainer = (props) => {
 
     const countries = useSelector(state=>state.countries);
+    const totalPaises = useSelector(state=>state.totalCountries)
     const filterCountries = useSelector(state=>state.filteredCountries);
     const orderedCountries = useSelector(state=>state.orderedCountries);
     const filterActivities = useSelector(state=>state.filteredByActivity);
     const allActivities = useSelector(state=>state.activities);
-   
-    console.log("cardsc"+allActivities)
-    console.log("hola")
-  
-   
+    const country = useSelector(state=>state.country)
 
+    console.log(totalPaises)
+ 
     const [order,setOrder] = useState("");
     const [sortBy,setSortBy] = useState("");
 
-   
-
     const dispatch = useDispatch();
-    //console.log("cardcontainer",filterCountries)
+   
     const continents = [...new Set(countries?.map((country)=>{
       return country.continente
     }))];
@@ -41,8 +38,7 @@ const CardsContainer = (props) => {
   
    const handleContinent = (event)=>{
     const value = event.target.value;
-    //console.log(typeof value)
-   // console.log(event.target.value)
+    
       dispatch(countriesFiltered(event.target.value));    
     }
 
@@ -67,83 +63,93 @@ const CardsContainer = (props) => {
     
     return(
       
-        <div>
-          <div>
-            <div >
-              <select name="continentes" onChange={handleContinent}>
-                {continents?.map((continente)=>{
-                  return <option value={continente}>{continente}</option>
-                })}
+        <div className={style.todo}>
+          <div className={style.container}>
+              <div className={style.filtrados} >
+                <select name="continentes" onChange={handleContinent}>
+                  {continents?.map((continente)=>{
+                    return <option value={continente}>{continente}</option>
+                  })}
+                </select>
+                <select name="actividades" onChange={handleActivities}>
+                  {allActivities?.map((actividad)=>{
+                    return <option value={actividad.nombre}>{actividad.nombre}</option>
+                  })}
+                </select>
+              </div>
+            
+              
+            <div className={style.ordenamiento}>
+              <label>Nombre pais</label>
+              <input type="radio" name="sortBy" value="nombre" onChange={()=>{setSortBy("nombre")}} />
+              <label>Poblacion</label>
+              <input type="radio" name="sortBy" value="poblacion" onChange={()=>{setSortBy("poblacion")}}/>
+              
+              <select value={order} onChange={(e)=>setOrder(e.target.value)}>
+                <option value="Ascendente">Ascendente</option>
+                <option value="Descendente">Descendente</option>
               </select>
-              <select name="actividades" onChange={handleActivities}>
-                {allActivities?.map((actividad)=>{
-                  return <option value={actividad.nombre}>{actividad.nombre}</option>
-                })}
-              </select>
+              
+              
+            </div>  
+            <div className={style.botonesOrdenamiento}>
+                <button onClick={handleOrderClick}>ORDENAR</button>
+                <button onClick={handleResetButton}>RESET</button>
             </div>
-           
-            
-          <div>
-            <input type="radio" name="sortBy" value="nombre" onChange={()=>{setSortBy("nombre")}} />
-            <label>Nombre pais</label>
-            <input type="radio" name="sortBy" value="poblacion" onChange={()=>{setSortBy("poblacion")}}/>
-            <label>Poblacion</label>
-            <select value={order} onChange={(e)=>setOrder(e.target.value)}>
-              <option value="Ascendente">Ascendente</option>
-              <option value="Descendente">Descendente</option>
-            </select>
-            
-            
-          </div>  
-          <div>
-              <button onClick={handleOrderClick}>ORDENAR</button>
-              <button onClick={handleResetButton}>RESET</button>
-          </div>
             
           </div>
           <div className={style.CardsContainer}>
-          {
-            orderedCountries.length > 0 ? (
-              orderedCountries.map((country) => (
-                <Card
-                  key={country.id}
-                  id={country.id}
-                  bandera={country.bandera}
-                  nombre={country.nombre}
-                  continente={country.continente}
-                />
-              ))
-            ) : filterCountries.length > 0 ? (
-              filterCountries.map((country) => (
-                <Card
-                  key={country.id}
-                  id={country.id}
-                  bandera={country.bandera}
-                  nombre={country.nombre}
-                  continente={country.continente}
-                />
-              ))
-            ) :  filterActivities.length > 0 ? (
-              filterActivities.map((country) => (
-                <Card
-                  key={country.id}
-                  id={country.id}
-                  bandera={country.bandera}
-                  nombre={country.nombre}
-                  continente={country.continente}
-                />
-              ))
-            ) : (
-              countries.map((country) => (
-                <Card
-                  key={country.id}
-                  id={country.id}
-                  bandera={country.bandera}
-                  nombre={country.nombre}
-                  continente={country.continente}
-                />
-              ))
-            )}
+          {country && country.length > 0 ? (
+           country.map((countryItem) => (
+              <Card
+                key={countryItem.id}
+                id={countryItem.id}
+                bandera={countryItem.bandera}
+                nombre={countryItem.nombre}
+                continente={countryItem.continente}
+              />
+            ))
+          ) : orderedCountries.length > 0 ? (
+              orderedCountries.map((countryItem) => (
+              <Card
+                key={countryItem.id}
+                id={countryItem.id}
+                bandera={countryItem.bandera}
+                nombre={countryItem.nombre}
+                continente={countryItem.continente}
+              />
+            ))
+          ) : filterCountries.length > 0 ? (
+              filterCountries.map((countryItem) => (
+              <Card
+                key={countryItem.id}
+                id={countryItem.id}
+                bandera={countryItem.bandera}
+                nombre={countryItem.nombre}
+                continente={countryItem.continente}
+              />
+            ))
+          ) : filterActivities.length > 0 ? (
+              filterActivities.map((countryItem) => (
+              <Card
+                key={countryItem.id}
+                id={countryItem.id}
+                bandera={countryItem.bandera}
+                nombre={countryItem.nombre}
+                continente={countryItem.continente}
+              />
+            ))
+          ) : (
+              countries.map((countryItem) => (
+              <Card
+                key={countryItem.id}
+                id={countryItem.id}
+                bandera={countryItem.bandera}
+                nombre={countryItem.nombre}
+                continente={countryItem.continente}
+              />
+            ))
+          )}
           </div>
           <div>
             <button onClick={props.handlePrevClick} disabled={props.startIndex === 0}>PREVIOUS</button>
@@ -158,34 +164,3 @@ const CardsContainer = (props) => {
 
 export default CardsContainer;
 
-/*
- {
-              
-              filterCountries.length > 0 ?(
-                filterCountries?.map((country)=>{
-
-                  return <Card 
-                    key = {country.id}
-                    id = {country.id}
-                    bandera = {country.bandera}
-                    nombre={country.nombre}
-                    continente = {country.continente}
-
-                    />
-                })
-              ) : (
-                countries?.map((country)=>{
-                    return <Card 
-                    key = {country.id}
-                    id = {country.id}
-                    bandera = {country.bandera}
-                    nombre={country.nombre}
-                    continente = {country.continente}
-
-                  />
-              })
-              )
-            
-             }
-
-*/

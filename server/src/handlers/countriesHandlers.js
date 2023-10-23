@@ -1,4 +1,4 @@
-const {getCountryBYName,getAllCountries,getCountryByPk} = require("../controllers/countriesControllers");
+const {getCountryBYName,getAllCountries,getCountryByPk,getTotalCountries} = require("../controllers/countriesControllers");
 
 const getCountries = async(req,res) => {
     try {
@@ -10,7 +10,11 @@ const getCountries = async(req,res) => {
             const searchedCountry = await getCountryBYName(nombre);
             res.status(200).json(searchedCountry);
         }
-        else {
+        else if(!startIndex && !endIndex){
+             const searchedCountry = await getTotalCountries();
+            
+            res.status(200).json(searchedCountry);
+        }else{
             const searchedCountry = await getAllCountries(startIndex,endIndex);
             res.status(200).json(searchedCountry);
         }

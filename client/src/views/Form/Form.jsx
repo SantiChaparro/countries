@@ -3,77 +3,48 @@ import { useDispatch, useSelector } from "react-redux";
 import { postActivity } from "../../redux/actions";
 import { getCountry, empyStateCountry } from "../../redux/actions";
 
-const validateForm = (form,setErrors,errors) => {
-    const nameRegex = /^[a-zA-Z]+$/;
-    const numberRegex = /^[0-9]+$/;
-    const durationRegex = /^(?:\d{1,2}:\d{2})?$/;
+const regexNombre = /^[A-Za-z]+$/;
+const regexDuracion = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
 
-    const validateErrors = {};
+const validate = (form,country) => {
 
-    if (!form.nombre) {
-        validateErrors.nombre = "Nombre está vacío";
-    } else if (!nameRegex.test(form.nombre)) {
-        validateErrors.nombre = "El nombre debe contener solo letras";
-    } else {
-        validateErrors.nombre = "";
-    }
-  
-    if (!form.dificultad) {
-        validateErrors.dificultad = "Dificultad está vacía";
-    } else if (!numberRegex.test(form.dificultad)) {
-        validateErrors.dificultad = "La dificultad debe contener solo números";
-    } else if (form.dificultad < 1 || form.dificultad > 5) {
-        validateErrors.dificultad = "Los valores deben ir del 1 al 5";
-    } else {
-        validateErrors.dificultad = "";
-    }
-
-    if (!form.duracion) {
-        validateErrors.duracion = "Duración está vacía";
-      } else if (!durationRegex.test(form.duracion)) {
-        validateErrors.duracion = "Formato de duración inválido (use HH:mm)";
-      } else {
-        validateErrors.duracion = "";
-      }
-
-
-
-     return validateErrors
+    const errors = {};
     
+    if(!form.nombre) errors.nombre = "El campo esta vacio";
+    if(!regexNombre.test(form.nombre)) errors.nombre = "El campo solo admite letras";
+    if(!form.duracion) errors.duracion = "El campo esta vacio";
+    if(!regexDuracion.test(form.duracion)) errors.duracion = "El formato debe ser HH:MM";
+
     
+
+
+
+    return errors;
     
 };
+
+
 
 const Form = () => {
 
     const country = useSelector(state=>state.country);
+    const allActivities = useSelector(state=>state.activities);
 
-    //console.log(country)
-    if(country.length > 0){
-        console.log(country[0].id)
-    }
    
-
     const [form,setForm] = useState({
 
         nombre:"",
-        dificultad:"",
+        dificultad:1,
         duracion:"",
         temporada:"",
         paises:[]
     })
 
-    const[errors,setErrors] = useState({
-        nombre:"",
-        dificultad:"",
-        duracion:"",
-        temporada:"",
-        paises:[]
-    });
+    const[errors,setErrors] = useState({});
 
     const [input,setInput] = useState("");
-
-    //const [newCountry,setNewCountry] = useState("");
+    const [nombrePaises,setNombrePaises] = useState([]); 
+    
 
     const dispatch = useDispatch();
 
@@ -84,17 +55,19 @@ const Form = () => {
             paises: [...prevForm.paises, country[0].id],
           }));
         }
+        
       }, [country]);
-
+    
 
     const handleFormChange = (event) => {
         const {name,value} = event.target;
 
-        const parsedValue = name === "dificultad" ? Number(value) : value;
-
-        setForm({...form,[name]:parsedValue});
-        const errors = validateForm({ ...form, [name]: parsedValue });
-        setErrors(errors);
+        
+        setForm(prevForm => {
+            return { ...prevForm, [name]: value };
+        });
+        setErrors(validate({ ...form, [name]: value }));
+        ;
     };
     
     const handleNameChange = (event) => {
@@ -105,11 +78,15 @@ const Form = () => {
 
     const handleAddCountry = () => {
         dispatch(getCountry(input))
-      };
+        //console.log(form.paises)
+    }
+     console.log(Array.isArray(country))
+     console.log(typeof country)
+     console.log(country)
      console.log(form.paises)
       
  
-     console.log(country)
+     //console.log(country[0].id)
 
     const handleSubmitButton = (event) => {
 
@@ -131,7 +108,7 @@ const Form = () => {
             </div>
             <div>
                 <label name="dificultad">Dificultad </label>
-                <input type="text" value={form.dificultad} name="dificultad" onChange={handleFormChange} />
+                <input type="number" min={1} max={5} value={form.dificultad} name="dificultad"  onChange={handleFormChange} />
                 <div>
                     <span><strong>{errors.dificultad}</strong></span>
                 </div>
@@ -155,6 +132,21 @@ const Form = () => {
             <div>
                 <label name="paises">Paises </label>
                 <input type="search" value={input} name="paises" onChange={handleNameChange} />
+                <div>
+                    <strong>Países seleccionados:</strong>
+                    {form.paises.length > 0 ? (
+                        <ul>
+                            {console.log(nombrePaises)}
+                            
+                        {
+                            nombrePaises.map((country) => (
+                            <li>{country}</li>
+                        ))}
+                        </ul>
+                    ) : (
+                        <p>No hay países seleccionados.</p>
+                    )}
+                </div>
                
                 <div>
                     <button type="button" onClick={handleAddCountry} >AGREGAR PAIS</button>
@@ -169,11 +161,3 @@ const Form = () => {
 
 export default Form;
 
-/*
- <div>
-                    <label>PAISES AGREGADOS</label>
-                    {form.Countries?.map((pais)=>(<li key={pais}>{pais}</li>))}
-                </div>
-
-                setForm(prevForm =>({...prevForm, paises: Array.isArray(prevForm.paises) ? [...prevForm.paises, country[0].id] : [country[0].id]}))
- */

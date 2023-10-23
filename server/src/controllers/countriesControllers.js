@@ -48,6 +48,28 @@ const getAllCountries = async(startIndex,endIndex) =>{
 
 } 
 
+const getTotalCountries = async() => {
+    const countries = await Country.findAll(
+    
+        {
+            include: {
+                model: Activity,
+                attributes: ["nombre"],
+                through:{
+                    attributes: [],
+                }
+    
+            },
+            
+        
+        },
+        
+        
+    );
+    return countries;
+
+};
+
 const getCountryByPk = async(id) => {
     console.log(id)
     const country = await Country.findByPk(id,
@@ -92,7 +114,8 @@ const getCountryByPk = async(id) => {
 module.exports = {
     getCountryBYName,
     getAllCountries,
-    getCountryByPk
+    getCountryByPk,
+    getTotalCountries
 
 }
 

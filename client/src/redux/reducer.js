@@ -11,12 +11,14 @@ import {
     FILTERED_BY_ACTIVITY,
     GET_ACTIVITIES,
     EMPTY_FILTERED_ACTIVITIES,
-    POST_ACTIVITY
+    POST_ACTIVITY,
+    GET_TOTAL_COUNTRIES
     
 
 } from "./actions/"; 
 
 const initialState = {
+    totalCountries: [],
     countries: [],
     country: {},
     filteredCountries: [],
@@ -32,6 +34,10 @@ const rootReducer = (state= initialState,action) =>{
         case GET_COUNTRIES:
 
             return {...state, countries: action.payload}
+
+        case GET_TOTAL_COUNTRIES:
+            
+            return {...state, totalCountries: action.payload}
         
         case GET_COUNTRY:
             
@@ -47,7 +53,7 @@ const rootReducer = (state= initialState,action) =>{
 
         case FILTER_COUNTRIES:
            
-            return {...state, filteredCountries: state.countries.filter((country)=> country.continente === action.payload)}
+            return {...state, filteredCountries: state.totalCountries.filter((country)=> country.continente === action.payload)}
 
         case EMPTY_STATE_FILTERED:
 
@@ -128,14 +134,3 @@ const rootReducer = (state= initialState,action) =>{
 
 
 export default rootReducer;
-
-
-/*
-  if(state.filteredCountries.length === 0){
-                 usingState = [...state.countries];
-            }else{
-                 usingState = [...state.filteredCountries];
-            }
-
-
-*/

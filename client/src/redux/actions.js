@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { useSelector } from "react-redux";
+export const GET_TOTAL_COUNTRIES = "GET_TOTAL_COUNTRIES";
 export const GET_COUNTRIES = "GET_COUNTRIES";
 export const GET_COUNTRY = "GET_COUNTRY";
 export const GET_COUNTRY_BY_ID ="GET_COUNTRY_BY_ID";
@@ -22,6 +22,16 @@ export const getCountries = (startIndex,endIndex) => {
         console.log(countries)
         //console.log(dbCountries)
         dispatch({type: GET_COUNTRIES, payload: countries});
+    }
+};
+
+export const getTotalCountries = () => {
+    return async(dispatch) => {
+        const totalCountries = await axios.get("http://localhost:3001/countries");
+        const totalPaises = totalCountries.data;
+       // console.log(countries)
+        dispatch({type: GET_TOTAL_COUNTRIES, payload: totalPaises
+        })
     }
 };
 
