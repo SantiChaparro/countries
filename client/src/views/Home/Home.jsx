@@ -1,3 +1,4 @@
+import style from "./Home.module.css"
 import CardsContainer from "../../components/CardsContainer/CardsContainer";
 import { useEffect } from "react";
 import { getCountries } from "../../redux/actions";
@@ -40,7 +41,7 @@ const Home = () => {
 
 
     return(
-        <div>
+        <div className={style.homeContainer }>
             <CardsContainer handleNextClick={handleNextClick} handlePrevClick={handlePrevClick} startIndex={startIndex}/>  
         </div>
         

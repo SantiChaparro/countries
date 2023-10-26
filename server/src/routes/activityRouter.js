@@ -5,8 +5,8 @@ const {getActivitiesHandler,
 
 const activityRouter = Router();
 
-activityRouter.get("/",getActivitiesHandler);// trea un arreglo de objetos donde cada obj es una actividad
+activityRouter.get("/",getActivitiesHandler);
 
-activityRouter.post("/",postActivitiesHandler);// crea una nueva actividad 
+activityRouter.post("/",postActivitiesHandler);
 
 module.exports = activityRouter;

@@ -23,15 +23,18 @@ const CardsContainer = (props) => {
     const filterActivities = useSelector(state=>state.filteredByActivity);
     const allActivities = useSelector(state=>state.activities);
     const country = useSelector(state=>state.country)
-
-    console.log(totalPaises)
+    //console.log("por actividades")
+    console.log("por actividades",filterActivities)
+   // console.log("por por continente")
+    console.log("por continente",filterCountries)
+    console.log("ordenamiento",orderedCountries)
  
     const [order,setOrder] = useState("");
     const [sortBy,setSortBy] = useState("");
 
     const dispatch = useDispatch();
    
-    const continents = [...new Set(countries?.map((country)=>{
+    const continents = [...new Set(totalPaises?.map((country)=>{
       return country.continente
     }))];
     
@@ -58,8 +61,25 @@ const CardsContainer = (props) => {
       console.log(sortBy)
     };
 
-   
-   
+    let filteredData;
+
+    if (orderedCountries.length > 0) {
+      filteredData = orderedCountries;
+    } else if (filterActivities.length > 0) {
+      filteredData = filterActivities;
+    }
+     else if (filterCountries.length > 0) {
+      filteredData = filterCountries;
+    }
+    else if (country.length > 0) {
+      filteredData = country;
+    } else {
+      filteredData = countries;
+    }
+    
+    const CardsToRender = filteredData;
+    console.log("cardscontainer",CardsToRender)
+
     
     return(
       
@@ -80,11 +100,16 @@ const CardsContainer = (props) => {
             
               
             <div className={style.ordenamiento}>
-              <label>Nombre pais</label>
-              <input type="radio" name="sortBy" value="nombre" onChange={()=>{setSortBy("nombre")}} />
-              <label>Poblacion</label>
-              <input type="radio" name="sortBy" value="poblacion" onChange={()=>{setSortBy("poblacion")}}/>
-              
+              <div className="ordenamientoContainer">
+                <div className="labels">
+                  <label>Nombre pais</label>
+                  <label>Poblacion</label>
+                </div>
+                <div className="radios"> 
+                  <input type="radio" name="sortBy" value="nombre" onChange={()=>{setSortBy("nombre")}} />
+                  <input type="radio" name="sortBy" value="poblacion" onChange={()=>{setSortBy("poblacion")}}/>
+                </div>
+              </div>
               <select value={order} onChange={(e)=>setOrder(e.target.value)}>
                 <option value="Ascendente">Ascendente</option>
                 <option value="Descendente">Descendente</option>
@@ -99,6 +124,34 @@ const CardsContainer = (props) => {
             
           </div>
           <div className={style.CardsContainer}>
+            {CardsToRender.map((countryItem) => (
+              <Card
+                key={countryItem.id}
+                id={countryItem.id}
+                bandera={countryItem.bandera}
+                nombre={countryItem.nombre}
+                continente={countryItem.continente}
+              />
+            ))}
+          </div>
+          
+
+          <div className={style.botones}>
+            <button onClick={props.handlePrevClick} disabled={props.startIndex === 0}>PREVIOUS</button>
+            <button onClick={props.handleNextClick}>NEXT</button>
+          </div>
+          
+
+        </div>
+    )
+
+};
+
+export default CardsContainer;
+
+/*
+
+ <div className={style.CardsContainer}>
           {country && country.length > 0 ? (
            country.map((countryItem) => (
               <Card
@@ -119,7 +172,7 @@ const CardsContainer = (props) => {
                 continente={countryItem.continente}
               />
             ))
-          ) : filterCountries.length > 0 ? (
+          ) : filterCountries && filterCountries.length > 0 ? (
               filterCountries.map((countryItem) => (
               <Card
                 key={countryItem.id}
@@ -158,9 +211,26 @@ const CardsContainer = (props) => {
           
 
         </div>
-    )
 
-};
 
-export default CardsContainer;
+*/
+
+/*
+let filteredData;
+
+    if (orderedCountries.length > 0) {
+      filteredData = orderedCountries;
+    } else if (filterCountries.length > 0) {
+      filteredData = filterCountries;
+    } else if (filterActivities.length > 0) {
+      filteredData = filterActivities;
+    } else if (country.length > 0) {
+      filteredData = country;
+    } else {
+      filteredData = countries;
+    }
+    
+    const CardsToRender = filteredData;
+
+*/
 

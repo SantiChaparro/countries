@@ -13,18 +13,6 @@ const getAllActivities = async() => await Activity.findAll({
 
 });
 
-/*
-
-
-    {
-        include:{
-            model: Country,
-            attributes: ["nombre"],
-            through:{
-                attributes: [],
-            },
-        }
-    } */
 
 
 const createActivity = async(nombre,dificultad,duracion,temporada,paises) => {

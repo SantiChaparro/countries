@@ -1,5 +1,5 @@
 .navBarContainer{
-    width: 100%;
+    width: 100vw;
     background-color: #474b4e ;
     padding: 1em;
     display: flex;
@@ -11,7 +11,7 @@
 .NavBar{
     width: 50%;
     height: 2em;
-    padding: 1em;
+    padding: 2em;
     background-color: #474b4e;
     display: flex;
     flex-direction: row;
@@ -19,4 +19,14 @@
     align-items: center;
     border: 1px solid black;
     border-radius: 20px;
+}
+
+.NavBar:hover{
+    border: 1px solid #D8D9DB
+}
+
+.NavBar a{
+    font-family: "Source Sans Pro", sans-serif;
+    color: #D8D9DB;
+    text-decoration: none;
 }

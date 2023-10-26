@@ -1,3 +1,4 @@
+import style from "./Form.module.css"
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postActivity } from "../../redux/actions";
@@ -30,6 +31,7 @@ const Form = () => {
     const country = useSelector(state=>state.country);
     const allActivities = useSelector(state=>state.activities);
 
+    const [paises,setPaises] = useState([]);
    
     const [form,setForm] = useState({
 
@@ -41,9 +43,10 @@ const Form = () => {
     })
 
     const[errors,setErrors] = useState({});
+    const [message, setMessage] = useState("");
 
     const [input,setInput] = useState("");
-    const [nombrePaises,setNombrePaises] = useState([]); 
+   // const [nombrePaises,setNombrePaises] = useState([]); 
     
 
     const dispatch = useDispatch();
@@ -52,13 +55,16 @@ const Form = () => {
         if (country && country.length > 0) {
           setForm((prevForm) => ({
             ...prevForm,
-            paises: [...prevForm.paises, country[0].id],
+            paises: [...prevForm.paises, country[0].id]
+            
           }));
+        setPaises((prevPaises) => [...prevPaises,country[0].nombre])
         }
         
       }, [country]);
-    
 
+      console.log(paises)
+    
     const handleFormChange = (event) => {
         const {name,value} = event.target;
 
@@ -78,86 +84,113 @@ const Form = () => {
 
     const handleAddCountry = () => {
         dispatch(getCountry(input))
+        setInput("");
+        console.log(country)
+       
+        //console.log(paisesAgregados);
         //console.log(form.paises)
     }
      console.log(Array.isArray(country))
      console.log(typeof country)
      console.log(country)
      console.log(form.paises)
+     //console.log(country[0].nombre)
+     
       
  
      //console.log(country[0].id)
 
-    const handleSubmitButton = (event) => {
-
+     const handleSubmitButton =  (event) => {
         event.preventDefault();
-        dispatch(postActivity(form));
-        dispatch(empyStateCountry());
-        console.log(country)
-        
+        try {
+             dispatch(postActivity(form));
+             dispatch(empyStateCountry());
+            setPaises([]);
+            setMessage("Actividad creada con éxito");
+        } catch (error) {
+            console.error("Error al agregar la actividad:", error);
+            setMessage(`Error: ${error.response ? error.response.data.error : error.message}`);
+        }
     };
 
     return(
-        <form>
-            <div>
-                <label name="nombre">Nombre </label>
-                <input type="text" value={form.nombre} name="nombre" onChange={handleFormChange} />
-                <div>
-                    <span><strong>{errors.nombre}</strong></span>
+        <form >
+           <div className={style.formContainer}>
+                <div className={style.nombre}> 
+                    <label name="nombre">Nombre </label>
+                    <input type="text" value={form.nombre} name="nombre" onChange={handleFormChange} />
+                    <div>
+                        <span><strong>{errors.nombre}</strong></span>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <label name="dificultad">Dificultad </label>
-                <input type="number" min={1} max={5} value={form.dificultad} name="dificultad"  onChange={handleFormChange} />
-                <div>
-                    <span><strong>{errors.dificultad}</strong></span>
+                <div className={style.dificultad}>
+                    <label name="dificultad">Dificultad </label>
+                    <input type="number" min={1} max={5} value={form.dificultad} name="dificultad"  onChange={handleFormChange} />
+                    <div>
+                        <span><strong>{errors.dificultad}</strong></span>
+                    </div>
                 </div>
-            </div>
-            
-            <div>
-                <label name="duracion">Duración </label>
-                <input type="text" value={form.duracion} name="duracion" onChange={handleFormChange} />
-                <div>
-                    <span><strong>{errors.duracion}</strong></span>
+                
+                <div className={style.duracion}>
+                    <label name="duracion">Duración </label>
+                    <input type="text" value={form.duracion} name="duracion" onChange={handleFormChange} />
+                    <div>
+                        <span><strong>{errors.duracion}</strong></span>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <select name="temporada" value={form.temporada} onChange={handleFormChange}>
-                    <option>Verano</option>
-                    <option>Otoño</option>
-                    <option>Invierno</option>
-                    <option>Primavera</option>
-                </select>
-            </div>
-            <div>
-                <label name="paises">Paises </label>
-                <input type="search" value={input} name="paises" onChange={handleNameChange} />
+                <div className={style.temporada}>
+                    <label>Temporada</label>
+                    <select name="temporada" value={form.temporada} onChange={handleFormChange}>
+                        <option>Verano</option>
+                        <option>Otoño</option>
+                        <option>Invierno</option>
+                        <option>Primavera</option>
+                    </select>
+                </div>
                 <div>
-                    <strong>Países seleccionados:</strong>
-                    {form.paises.length > 0 ? (
-                        <ul>
-                            {console.log(nombrePaises)}
-                            
+                    <label name="paises">Paises </label>
+                    <input type="search" value={input} name="paises" onChange={handleNameChange} />
+                    <div className={style.paises}>
                         {
-                            nombrePaises.map((country) => (
-                            <li>{country}</li>
-                        ))}
-                        </ul>
-                    ) : (
-                        <p>No hay países seleccionados.</p>
-                    )}
+                          paises && paises.length > 0 ? (
+                            <ul>
+                                {
+                                    paises.map((pais,index) => {
+                                        return <li key = {index}>{pais}</li>
+                                    })
+                                }
+                            </ul>
+                          ):(<p>No hay paises agregados</p>)
+                        }
+                    </div>
+                
+                    <div>
+                        <button type="button" onClick={handleAddCountry} >AGREGAR PAIS</button>
+                    </div>
                 </div>
-               
                 <div>
-                    <button type="button" onClick={handleAddCountry} >AGREGAR PAIS</button>
+                    <button type="submit" onClick={handleSubmitButton}>ENVIAR</button>
                 </div>
-            </div>
-            <div>
-                <button type="submit" onClick={handleSubmitButton}>ENVIAR</button>
-            </div>
+                <div>
+                     {message && <p>{message}</p>}
+                </div>
+           </div>
         </form>
     )
 }
 
 export default Form;
+
+/*
+const handleSubmitButton = (event) => {
+
+        event.preventDefault();
+        dispatch(postActivity(form));
+        dispatch(empyStateCountry());
+        setPaises([]);
+        console.log(country)
+        
+    };
+
+*/
 

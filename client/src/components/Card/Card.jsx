@@ -16,8 +16,8 @@ const Card = (props) => {
             <div className={style.Card} onClick={handleClick} >
                 
                 <img src={props.bandera} alt={props.nombre}/>
-                <p>Nombre:{props.nombre}</p>
-                <p>Continente:{props.continente}</p>
+                <p>{props.nombre}</p>
+                <p>{props.continente}</p>
             </div>
         
         </Link>

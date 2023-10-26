@@ -29,7 +29,7 @@ export const getTotalCountries = () => {
     return async(dispatch) => {
         const totalCountries = await axios.get("http://localhost:3001/countries");
         const totalPaises = totalCountries.data;
-       // console.log(countries)
+      
         dispatch({type: GET_TOTAL_COUNTRIES, payload: totalPaises
         })
     }
@@ -84,8 +84,8 @@ export const emptyStateFiltered = () => {
 }
 
 export const sortedCountries = (order,sortBy) => {
-    console.log(order)
-    console.log(sortBy)
+    console.log("actions",order)
+    console.log("actions",sortBy)
     return (dispatch) => {
         dispatch({type: ORDERED_COUNTRIES, payload:{order,sortBy}})
     }
