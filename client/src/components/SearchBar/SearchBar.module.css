@@ -6,7 +6,8 @@
 
 
 .SearchBar input{
-
+    width: 13em;
+    height: 2em;
     border: 1px solid #D8D9DB;
     border-radius: 1rem;
     background: none;
@@ -26,8 +27,8 @@
     justify-content: center;
     outline: none;
     cursor: pointer;
-    width: 100px;
-    height: 50px;
+    width: 80px;
+    height: 35px;
     background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
     border-radius: 15px;
     border: 1px solid #8F9092;

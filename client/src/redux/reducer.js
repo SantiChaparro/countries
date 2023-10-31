@@ -1,161 +1,140 @@
 //import { countriesFiltered } from "./actions";
 import {
-    GET_COUNTRIES,
-    GET_COUNTRY,
-    GET_COUNTRY_BY_ID,
-    EMPTY_STATE_COUNTRY,
-    FILTER_COUNTRIES,
-    EMPTY_STATE_FILTERED,
-    ORDERED_COUNTRIES,
-    EMPTY_STATE_ORDERED,
-    FILTERED_BY_ACTIVITY,
-    GET_ACTIVITIES,
-    EMPTY_FILTERED_ACTIVITIES,
-    POST_ACTIVITY,
-    GET_TOTAL_COUNTRIES
-    
-
-} from "./actions/"; 
+  GET_COUNTRIES,
+  GET_COUNTRY,
+  GET_COUNTRY_BY_ID,
+  EMPTY_STATE_COUNTRY,
+  FILTER_COUNTRIES,
+  EMPTY_STATE_FILTERED,
+  ORDERED_COUNTRIES,
+  EMPTY_STATE_ORDERED,
+  FILTERED_BY_ACTIVITY,
+  GET_ACTIVITIES,
+  EMPTY_FILTERED_ACTIVITIES,
+  POST_ACTIVITY,
+  GET_TOTAL_COUNTRIES,
+} from "./actions/";
 
 const initialState = {
-    totalCountries: [],
-    countries: [],
-    country: {},
-    filteredCountries: [],
-    orderedCountries: [],
-    filteredByActivity: [],
-    activities: [],
-    conbineFilters: []
-}
+  totalCountries: [],
+  countries: [],
+  country: {},
+  filteredCountries: [],
+  orderedCountries: [],
+  filteredByActivity: [],
+  activities: [],
+  conbineFilters: [],
+};
 let usingState;
 
-const rootReducer = (state= initialState,action) =>{
+const rootReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_COUNTRIES:
+      return { ...state, countries: action.payload };
 
-    switch (action.type) {
-        case GET_COUNTRIES:
+    case GET_TOTAL_COUNTRIES:
+      return { ...state, totalCountries: action.payload };
 
-            return {...state, countries: action.payload}
+    case GET_COUNTRY:
+      return { ...state, country: action.payload };
 
-        case GET_TOTAL_COUNTRIES:
-            
-            return {...state, totalCountries: action.payload}
-        
-        case GET_COUNTRY:
-            
-            return {...state, country: action.payload}
+    case GET_COUNTRY_BY_ID:
+      return { ...state, country: action.payload };
 
-        case GET_COUNTRY_BY_ID:
-            
-            return {...state, country: action.payload}
+    case EMPTY_STATE_COUNTRY:
+      return { ...state, country: action.payload };
 
-        case EMPTY_STATE_COUNTRY :
-            
-            return {...state, country: action.payload}
+    case FILTER_COUNTRIES:
+      if (state.filteredByActivity.length > 0) {
+        usingState = [...state.filteredByActivity];
+        console.log("actividades", usingState);
+      } else {
+        usingState = [...state.totalCountries];
+        console.log("totalPaises", usingState);
+      }
+      console.log(usingState.length);
+      return {
+        ...state,
+        filteredCountries: usingState.filter(
+          (country) => country.continente === action.payload
+        ),
+      };
 
-        case FILTER_COUNTRIES:
+    case EMPTY_STATE_FILTERED:
+      return { ...state, filteredCountries: [] };
 
-            if(state.filteredByActivity.length > 0){
-                usingState = [...state.filteredByActivity]
-                console.log("actividades",usingState)
-            }else{
-                usingState = [...state.totalCountries]
-                console.log("totalPaises",usingState)
-            }
-            console.log(usingState.length)
-            return {...state, filteredCountries: usingState.filter((country)=> country.continente === action.payload)}
+    case ORDERED_COUNTRIES:
+      let order = action.payload.order;
+      let sortBy = action.payload.sortBy;
 
-        case EMPTY_STATE_FILTERED:
+      if (state.filteredByActivity.length > 0) {
+        usingState = [...state.filteredByActivity];
+      } else if (state.filteredCountries.length > 0) {
+        usingState = [...state.filteredCountries];
+      } else {
+        usingState = [...state.countries];
+      }
+      console.log(usingState);
 
-            return {...state, filteredCountries: []}
+      if (order === "Ascendente" && sortBy === "nombre") {
+        let ordered = usingState.sort((a, b) =>
+          a.nombre.localeCompare(b.nombre)
+        );
+        console.log(ordered);
+        return { ...state, orderedCountries: ordered };
+      } else if (order === "Ascendente" && sortBy === "poblacion") {
+        let ordered = usingState.sort((a, b) => a.poblacion - b.poblacion);
+        console.log(ordered);
+        return { ...state, orderedCountries: ordered };
+      } else if (order === "Descendente" && sortBy === "nombre") {
+        let ordered = usingState.sort((a, b) =>
+          b.nombre.localeCompare(a.nombre)
+        );
+        console.log(ordered);
+        return { ...state, orderedCountries: ordered };
+      } else {
+        let ordered = usingState.sort((a, b) => b.poblacion - a.poblacion);
+        console.log("reducer" + ordered);
+        return { ...state, orderedCountries: ordered };
+      }
 
-        case ORDERED_COUNTRIES:
-           let order = action.payload.order;
-           let sortBy = action.payload.sortBy
-           console.log("orden",order)
-           console.log("poblacion o pais",sortBy)
-           console.log("actividades",state.filteredByActivity)
-           console.log("continentes",state.filteredCountries)
-           
+    case EMPTY_STATE_ORDERED:
+      return { ...state, orderedCountries: action.payload };
 
-           if(state.filteredByActivity.length > 0){
-                 usingState = [...state.filteredByActivity];
-                
-                
-            }else if(state.filteredCountries.length > 0 ){
-                 usingState = [...state.filteredCountries];
-                
-            }else{
-                usingState = [...state.countries];
-                
-            }
-            console.log(usingState)
+    case FILTERED_BY_ACTIVITY:
+      console.log(action.payload);
 
-            if(order === "Ascendente" && sortBy === "nombre"){
-                let ordered = usingState.sort((a,b) => a.nombre.localeCompare(b.nombre)) 
-                console.log(ordered)
-                return {...state, orderedCountries: ordered}
+      if (state.filteredCountries.length > 0) {
+        usingState = [...state.filteredCountries];
+        console.log(usingState);
+      } else {
+        usingState = [...state.totalCountries];
+      }
 
-            }else if(order === "Ascendente" && sortBy === "poblacion"){
-                let ordered = usingState.sort((a,b) => a.poblacion - b.poblacion )
-                console.log(ordered)
-                return {...state, orderedCountries: ordered}
+      return {
+        ...state,
+        filteredByActivity: usingState.filter((country) => {
+          if (country.Activities && country.Activities.length > 0) {
+            return country.Activities.some(
+              (activity) => activity.nombre === action.payload
+            );
+          }
+        }),
+      };
 
-            }else if(order === "Descendente" && sortBy === "nombre"){
-                let ordered = usingState.sort((a,b) => b.nombre.localeCompare(a.nombre))
-                console.log(ordered)
-                return {...state, orderedCountries: ordered}
+    case GET_ACTIVITIES:
+      console.log(action.payload);
+      return { ...state, activities: action.payload };
 
-            }else{
-               
-                    let ordered = usingState.sort((a,b) => b.poblacion - a.poblacion )
-                    console.log("reducer"+ordered)
-                    return {...state, orderedCountries: ordered}
-            }
+    case EMPTY_FILTERED_ACTIVITIES:
+      return { ...state, filteredByActivity: action.payload };
 
-        case EMPTY_STATE_ORDERED:
-            
-            return {...state, orderedCountries: action.payload }
+    case POST_ACTIVITY:
+      return { ...state, activities: [...state.activities, action.payload] };
 
-        case FILTERED_BY_ACTIVITY:
-            
-            console.log(action.payload)
-
-            if(state.filteredCountries.length > 0){
-
-                usingState = [...state.filteredCountries]
-                console.log(usingState)
-
-            }else{
-                usingState = [...state.totalCountries]
-
-            }
-
-            return {...state, filteredByActivity: usingState.filter((country) => {
-                if(country.Activities && country.Activities.length > 0){
-                    return country.Activities.some((activity)=>activity.nombre === action.payload)
-                }
-            }) }
-
-        case GET_ACTIVITIES:
-            console.log(action.payload)
-            return {...state, activities: action.payload }
-
-        case EMPTY_FILTERED_ACTIVITIES:
-            
-        return {...state, filteredByActivity: action.payload}
-
-        case POST_ACTIVITY:
-
-            return {...state, activities:[...state.activities, action.payload]}
-            
-
-        default:
-            return {...state}
-            
-    }
-    
-
-}
-
+    default:
+      return { ...state };
+  }
+};
 
 export default rootReducer;

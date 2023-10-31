@@ -1,5 +1,10 @@
 .body{
     background-color:#474b4e ;
+    width: 100vw;
+    background-image: url("../../assets/mapaMundi.png");
+    background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el cuerpo */
+    background-position: center; /* Centra la imagen de fondo */
+    background-repeat: no-repeat; /* Evita la repetición de la imagen de fondo */
 }
 
 .todo{
@@ -15,15 +20,23 @@
     align-items: center;
 }
 
-.CardsContainer{
+.CardsContainerGgrid{
     width: 100%;
     display: grid;
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* 5 columnas de igual tamaño */
     grid-template-rows: repeat(2, 1fr); /* 2 filas de igual tamaño */
+    justify-content: center;
+    align-items: center;
     gap: 10px; /* Espacio entre las celdas */
-    
     background-color: #474b4e;
+}
+
+.CardsContainerFlex{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    
 }
 
 .container{
@@ -34,11 +47,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-bottom: 5em;
     border: 1px solid black;
     border-radius: 15px;
-    margin-right: 90px;
-   
+    margin-bottom: 2em;
 }
 
 .container:hover{
@@ -54,10 +65,19 @@
     
 }
 
+.filtrados select{
+    width: auto;
+}
+
+.filtrados select option{
+    white-space: normal;
+}
+
 .ordenamiento{
     display: flex;
     flex-direction: column;
     align-items:center;
+    gap: 10px;
     margin: 10px;
     
 }
@@ -65,6 +85,19 @@
 .ordenamiento .ordenamientoContainer{
     display: flex;
     flex-direction: row;
+    gap: 10px;
+}
+
+.labels{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.radios{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 

@@ -1,0 +1,7 @@
+.app {
+    background-image: url('./assets/mapaMundi.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* Otros estilos globales aquí */
+  }

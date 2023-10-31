@@ -42,74 +42,98 @@ const Form = () => {
         paises:[]
     })
 
-    const[errors,setErrors] = useState({});
+    const [errors,setErrors] = useState({});
+    const [aux,setAux] = useState(false)
     const [message, setMessage] = useState("");
-
+    const [submitError,setSubmitError] = useState("");
     const [input,setInput] = useState("");
-   // const [nombrePaises,setNombrePaises] = useState([]); 
-    
+     
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (country && country.length > 0) {
-          setForm((prevForm) => ({
-            ...prevForm,
-            paises: [...prevForm.paises, country[0].id]
-            
-          }));
-        setPaises((prevPaises) => [...prevPaises,country[0].nombre])
+            if(paises.includes(country[0].nombre)){
+               setMessage("No puedes isngresar dos veces el mismo país")
+            }else{
+                setForm((prevForm) => ({
+                    ...prevForm,
+                    paises: [...prevForm.paises, country[0].id]
+                    
+                  }));
+                setPaises((prevPaises) => [...prevPaises,country[0].nombre])
+            }
+       
         }
-        
       }, [country]);
 
-      console.log(paises)
-    
+      useEffect(() => {
+        if (Object.keys(errors).length === 0) {
+            setAux(false);
+            setMessage("");
+        } else {
+            setAux(true);
+            if(errors){
+                const errorMessages = Object.keys(errors).join(" y el campo ")
+                console.log(errorMessages)
+                setMessage("Existe algún error presente en el campo"+" "+errorMessages)
+            }
+            
+        }
+    }, [errors]);
+
     const handleFormChange = (event) => {
         const {name,value} = event.target;
 
-        
         setForm(prevForm => {
             return { ...prevForm, [name]: value };
         });
         setErrors(validate({ ...form, [name]: value }));
-        ;
+       
     };
     
     const handleNameChange = (event) => {
         setInput(event.target.value);
         
     };
-    console.log(input)
-
+   
     const handleAddCountry = () => {
         dispatch(getCountry(input))
         setInput("");
-        console.log(country)
-       
-        //console.log(paisesAgregados);
-        //console.log(form.paises)
-    }
-     console.log(Array.isArray(country))
-     console.log(typeof country)
-     console.log(country)
-     console.log(form.paises)
-     //console.log(country[0].nombre)
      
-      
- 
-     //console.log(country[0].id)
+    }
+   
+    
 
      const handleSubmitButton =  (event) => {
         event.preventDefault();
-        try {
-             dispatch(postActivity(form));
-             dispatch(empyStateCountry());
-            setPaises([]);
-            setMessage("Actividad creada con éxito");
-        } catch (error) {
-            console.error("Error al agregar la actividad:", error);
-            setMessage(`Error: ${error.response ? error.response.data.error : error.message}`);
+        if(aux === true){
+            setMessage("No puedes enviar el formulario, existe algún error")
+        }else if (paises.length === 0){
+           setAux(true);
+           setMessage("No puedes enviar el formulario sin agregar paises")
+        }else{
+            try {
+                setAux(false);
+                dispatch(postActivity(form));
+                dispatch(empyStateCountry());
+                setForm({
+                    nombre: "",
+                    dificultad: 1,
+                    duracion: "",
+                    temporada: "",
+                    paises: []
+                });
+                setPaises([]);
+                setInput("");
+                setSubmitError(null); 
+                //setErrors("")// Limpiar el estado de error si la solicitud es exitosa
+                setMessage("Actividad creada con éxito");
+            } catch (error) {
+                console.error("Error al agregar la actividad:", error);
+                setSubmitError(error.response ? error.response.data.error : error.message);
+                console.log(submitError)
+            }
         }
     };
 
@@ -119,14 +143,14 @@ const Form = () => {
                 <div className={style.nombre}> 
                     <label name="nombre">Nombre </label>
                     <input type="text" value={form.nombre} name="nombre" onChange={handleFormChange} />
-                    <div>
+                    <div className={style.errorSpan}>
                         <span><strong>{errors.nombre}</strong></span>
                     </div>
                 </div>
                 <div className={style.dificultad}>
                     <label name="dificultad">Dificultad </label>
-                    <input type="number" min={1} max={5} value={form.dificultad} name="dificultad"  onChange={handleFormChange} />
-                    <div>
+                    <input type="number"  inputMode="numeric" min={1} max={5} value={form.dificultad} name="dificultad"  onChange={handleFormChange} />
+                    <div className={style.errorSpan}>
                         <span><strong>{errors.dificultad}</strong></span>
                     </div>
                 </div>
@@ -134,7 +158,7 @@ const Form = () => {
                 <div className={style.duracion}>
                     <label name="duracion">Duración </label>
                     <input type="text" value={form.duracion} name="duracion" onChange={handleFormChange} />
-                    <div>
+                    <div className={style.errorSpan}>
                         <span><strong>{errors.duracion}</strong></span>
                     </div>
                 </div>
@@ -156,23 +180,26 @@ const Form = () => {
                             <ul>
                                 {
                                     paises.map((pais,index) => {
-                                        return <li key = {index}>{pais}</li>
+                                        return <li className={style.errorSpan} key = {index}><strong>{pais}</strong></li>
                                     })
                                 }
                             </ul>
-                          ):(<p>No hay paises agregados</p>)
+                          ):(<div className={style.errorSpan}>
+                                <p><strong>No hay paises agregados</strong></p>
+                            </div>
+                            )
                         }
                     </div>
                 
-                    <div>
+                    <div className={style.btnAgregar}>
                         <button type="button" onClick={handleAddCountry} >AGREGAR PAIS</button>
                     </div>
                 </div>
-                <div>
-                    <button type="submit" onClick={handleSubmitButton}>ENVIAR</button>
+                <div className={style.btnSubmit}>
+                    <button type="submit" onClick={handleSubmitButton} disabled={aux} >ENVIAR</button>
                 </div>
-                <div>
-                     {message && <p>{message}</p>}
+                <div className={style.errorSpan}>
+                    <strong>{message && <p>{message}</p>}</strong> 
                 </div>
            </div>
         </form>
@@ -191,6 +218,29 @@ const handleSubmitButton = (event) => {
         console.log(country)
         
     };
+
+*/
+
+/*
+ try {
+            dispatch(postActivity(form));
+            dispatch(empyStateCountry());
+            setForm({
+                nombre: "",
+                dificultad: 1,
+                duracion: "",
+                temporada: "",
+                paises: []
+            });
+            setPaises([]);
+            setInput("");
+            setMessage("Actividad creada con éxito");
+        } catch (error) {
+            console.error("Error al agregar la actividad:", error);
+            setMessage(`Error: ${error.response ? error.response.data.error : error.message}`);
+            console.log(error)
+            console.log("console.log",message)
+        }
 
 */
 

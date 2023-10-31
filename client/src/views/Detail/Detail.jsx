@@ -1,4 +1,5 @@
 import Card from "../../components/Card/Card";
+import style from "./Detail.module.css"
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getCountryById } from "../../redux/actions";
@@ -18,30 +19,53 @@ const Detail = () => {
     const country = useSelector(state=>state.country);
     console.log(country)
    
-
+   
     useEffect(()=>{
 
         dispatch(getCountryById(id));
         
         return () => {
-            dispatch(empyStateCountry()); 
+            //dispatch(empyStateCountry()); 
         } 
        
         },[dispatch,id]);     
 
       
      return(
-        <div>
-           
-           <img src={country.bandera}/>
-           <p>pais: {country.nombre} </p>
-           <p>id: {country.id}</p>
-           <p>continente: {country.continente}</p>
-           <p>capital: {country.capital}</p>
-           <p>subregion: {country.subregion}</p>
-           <p>area: {country?.area}</p>
-           <p>poblacion: {country.poblacion}</p>
+        <div className={style.container}>
+            <div className={style.Card}>
+                <img src={country.bandera}/>
+                <p><strong>{country.nombre}</strong></p>
+                {country ? (
+
+                    <p>
+                                        
+                    {country.nombre} ubicada/o en {country.continente}, abarca {country.area} Km cuadrados.
+                    <br />
+                    Pertenece a la sub región de {country.subregion}, teniendo como su capital a {country.capital}
+                    <br></br>
+                    Su población actual es de {country.poblacion} habitantes.
+                    <br />
+                    {country && country.Activities && country.Activities.length > 0 ? (
+                        <span>
+                            Actividades turísticas que pueden realizarse:
+                            <ul>
+                                {country.Activities.map(activity => (
+                                    <li key={activity.id}>{activity.nombre}</li>
+                                ))}
+                            </ul>
+                        </span>
+                    ) : null}
+
+                    </p>
+
+                ):null}
+                
+                
+                
+            </div>
         </div>
+        
     )
 }
 
