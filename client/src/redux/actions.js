@@ -37,14 +37,21 @@ export const getTotalCountries = () => {
 
 
 export const getCountry = (name) => {
-    console.log("el name recibido desde el front"+" "+name)
+   // console.log("el name recibido desde el front"+" "+name)
     return async function(dispatch){
-        const countryByName = await axios.get(`http://localhost:3001/countries?nombre=${name}`);
+        try {
 
-        const country = countryByName.data;
-        console.log("Respuesta de axios"+" "+country)
-        console.log(typeof country)
-        dispatch({type: GET_COUNTRY, payload: country});
+            const countryByName = await axios.get(`http://localhost:3001/countries?nombre=${name}`);
+
+            const country = countryByName.data;
+            console.log("Respuesta de axios"+" "+country)
+            console.log(typeof country)
+            dispatch({type: GET_COUNTRY, payload: country});
+            
+        } catch (error) {
+            console.error(error.message);
+            window.alert("No exite dicho pais")
+        }
     }
 };
 

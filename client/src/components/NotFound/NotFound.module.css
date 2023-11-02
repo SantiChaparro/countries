@@ -1,0 +1,11 @@
+
+
+.errorContainer{
+    width: 100vw;
+    height: 100vh;
+    background-color: #474b4e;
+    background-image: url("../../assets/not-found.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:auto;
+}

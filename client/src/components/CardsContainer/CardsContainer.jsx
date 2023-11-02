@@ -147,12 +147,15 @@ const CardsContainer = (props) => {
 
       <div className={style.botones}>
         <button
+          className={style.pageButton}
           onClick={props.handlePrevClick}
           disabled={props.startIndex === 0}
         >
           PREVIOUS
         </button>
-        <button onClick={props.handleNextClick}>NEXT</button>
+        <button className={style.pageButton} 
+        onClick={props.handleNextClick}
+        disabled={props.endIndex === 250}>NEXT</button>
       </div>
     </div>
   );

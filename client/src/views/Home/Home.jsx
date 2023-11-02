@@ -28,6 +28,7 @@ const Home = () => {
         setStartIndex(newStartIndex);
         setEndIndex(newEndIndex);
         dispatch(getCountries(newStartIndex, newEndIndex));
+        console.log(startIndex,endIndex)
     };
 
     const handlePrevClick = () => {
@@ -42,7 +43,7 @@ const Home = () => {
 
     return(
         <div className={style.homeContainer }>
-            <CardsContainer handleNextClick={handleNextClick} handlePrevClick={handlePrevClick} startIndex={startIndex}/>  
+            <CardsContainer handleNextClick={handleNextClick} handlePrevClick={handlePrevClick} startIndex={startIndex} endIndex={endIndex}/>  
         </div>
         
     )

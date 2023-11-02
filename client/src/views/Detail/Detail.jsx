@@ -25,7 +25,7 @@ const Detail = () => {
         dispatch(getCountryById(id));
         
         return () => {
-            //dispatch(empyStateCountry()); 
+            dispatch(empyStateCountry()); 
         } 
        
         },[dispatch,id]);     
