@@ -33,8 +33,9 @@
 }
 
 .CardsContainerFlex{
+    width: 100%;
     display:flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     
 }
@@ -118,7 +119,22 @@
 .pageButton{
     background-color: whitesmoke;
     color: #474b4e;
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #606060;
+    text-shadow: 0 1px #fff;
+    width: 100px;
+    height: 35px;
+    background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+    
+    border: 1px solid #8F9092;
+    transition: all 0.2s ease;
 }
+.pageButton:disabled {
+    opacity: 0.5; 
+    
+  }
 
 
 

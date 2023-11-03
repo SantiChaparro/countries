@@ -10,7 +10,6 @@ const getCountryBYName = async (name) => {
     },
   });
   if (queryCountry.length > 0) {
-    console.log(queryCountry);
     return queryCountry;
   } else {
     throw new Error("No existe dicho pais");
@@ -46,7 +45,6 @@ const getTotalCountries = async () => {
 };
 
 const getCountryByPk = async (id) => {
-  console.log(id);
   const country = await Country.findByPk(
     id,
 
@@ -62,28 +60,13 @@ const getCountryByPk = async (id) => {
   );
 
   if (country) {
-    console.log(country);
     return country;
   } else {
     throw new Error("Pais no encontrado");
   }
 };
 
-/*
-const getCountryByPk = async(id) => {
-    
-    const country = await Country.findByPk(id,{includes: Activity.name});
 
-    if(country){
-        return country
-    }else{
-        throw new Error("Pais no encontrado")
-    }
-};
-
-
-
-*/
 
 module.exports = {
   getCountryBYName,
@@ -92,23 +75,3 @@ module.exports = {
   getTotalCountries,
 };
 
-//copia de seguridad de funcion getallcountries
-/*
-const getAllCountries = async() => await Country.findAll(
-    
-    {
-        include: {
-            model: Activity,
-            attributes: ["nombre"],
-            through:{
-                attributes: [],
-            }
-
-        }
-    
-    },
-    
-    
-);
-
-*/

@@ -28,7 +28,6 @@ const Home = () => {
         setStartIndex(newStartIndex);
         setEndIndex(newEndIndex);
         dispatch(getCountries(newStartIndex, newEndIndex));
-        console.log(startIndex,endIndex)
     };
 
     const handlePrevClick = () => {

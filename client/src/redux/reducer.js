@@ -1,4 +1,3 @@
-//import { countriesFiltered } from "./actions";
 import {
   GET_COUNTRIES,
   GET_COUNTRY,
@@ -50,9 +49,8 @@ const rootReducer = (state = initialState, action) => {
         console.log("actividades", usingState);
       } else {
         usingState = [...state.totalCountries];
-        console.log("totalPaises", usingState);
       }
-      console.log(usingState.length);
+      
       return {
         ...state,
         filteredCountries: usingState.filter(
@@ -74,27 +72,25 @@ const rootReducer = (state = initialState, action) => {
       } else {
         usingState = [...state.countries];
       }
-      console.log(usingState);
-
+      
       if (order === "Ascendente" && sortBy === "nombre") {
         let ordered = usingState.sort((a, b) =>
           a.nombre.localeCompare(b.nombre)
         );
-        console.log(ordered);
+        
         return { ...state, orderedCountries: ordered };
       } else if (order === "Ascendente" && sortBy === "poblacion") {
         let ordered = usingState.sort((a, b) => a.poblacion - b.poblacion);
-        console.log(ordered);
+        
         return { ...state, orderedCountries: ordered };
       } else if (order === "Descendente" && sortBy === "nombre") {
         let ordered = usingState.sort((a, b) =>
           b.nombre.localeCompare(a.nombre)
         );
-        console.log(ordered);
+        
         return { ...state, orderedCountries: ordered };
       } else {
         let ordered = usingState.sort((a, b) => b.poblacion - a.poblacion);
-        console.log("reducer" + ordered);
         return { ...state, orderedCountries: ordered };
       }
 
@@ -102,11 +98,10 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, orderedCountries: action.payload };
 
     case FILTERED_BY_ACTIVITY:
-      console.log(action.payload);
-
+      
       if (state.filteredCountries.length > 0) {
         usingState = [...state.filteredCountries];
-        console.log(usingState);
+        
       } else {
         usingState = [...state.totalCountries];
       }
@@ -123,7 +118,6 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case GET_ACTIVITIES:
-      console.log(action.payload);
       return { ...state, activities: action.payload };
 
     case EMPTY_FILTERED_ACTIVITIES:

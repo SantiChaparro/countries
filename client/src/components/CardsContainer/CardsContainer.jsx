@@ -21,12 +21,8 @@ const CardsContainer = (props) => {
   const filterActivities = useSelector((state) => state.filteredByActivity);
   const allActivities = useSelector((state) => state.activities);
   const country = useSelector((state) => state.country);
-  //console.log("por actividades")
-  console.log("por actividades", filterActivities);
-  // console.log("por por continente")
-  console.log("por continente", filterCountries);
-  console.log("ordenamiento", orderedCountries);
-
+  
+ 
   const [order, setOrder] = useState("");
   const [sortBy, setSortBy] = useState("");
 
@@ -58,8 +54,6 @@ const CardsContainer = (props) => {
 
   const handleOrderClick = () => {
     dispatch(sortedCountries(order, sortBy));
-    console.log(order);
-    console.log(sortBy);
   };
 
   let filteredData;
@@ -77,22 +71,21 @@ const CardsContainer = (props) => {
   }
 
   const CardsToRender = filteredData;
-  console.log("cardscontainer", CardsToRender);
- 
-  const containerClassName = CardsToRender.length > 1 ? style.CardsContainerGgrid : style.CardsContainerFlex;
+   
+  const containerClassName = CardsToRender.length >= 5 ? style.CardsContainerGgrid : style.CardsContainerFlex;
   return (
     <div className={style.todo}>
       <div className={style.container}>
         <div className={style.filtrados}>
           <select name="continentes" onChange={handleContinent}>
             {continents?.map((continente) => {
-              return <option value={continente}>{continente}</option>;
+              return <option key={continente} value={continente}>{continente}</option>;
             })}
           </select>
           <select name="actividades" onChange={handleActivities}>
             {allActivities?.map((actividad) => {
               return (
-                <option value={actividad.nombre}>{actividad.nombre}</option>
+                <option key={actividad.id} value={actividad.nombre}>{actividad.nombre}</option>
               );
             })}
           </select>
@@ -155,7 +148,9 @@ const CardsContainer = (props) => {
         </button>
         <button className={style.pageButton} 
         onClick={props.handleNextClick}
-        disabled={props.endIndex === 250}>NEXT</button>
+        disabled={props.endIndex === 250}>
+          NEXT
+          </button>
       </div>
     </div>
   );

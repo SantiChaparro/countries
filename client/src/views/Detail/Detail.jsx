@@ -6,8 +6,6 @@ import { getCountryById } from "../../redux/actions";
 import { empyStateCountry } from "../../redux/actions";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-//import style from "../Detail";
-
 
 
 const Detail = () => {
@@ -17,9 +15,7 @@ const Detail = () => {
     
     const dispatch = useDispatch();
     const country = useSelector(state=>state.country);
-    console.log(country)
-   
-   
+    
     useEffect(()=>{
 
         dispatch(getCountryById(id));
@@ -46,7 +42,7 @@ const Detail = () => {
                     <br></br>
                     Su población actual es de {country.poblacion} habitantes.
                     <br />
-                    {country && country.Activities && country.Activities.length > 0 ? (
+                    {country.Activities && country.Activities.length > 0 ? (
                         <span>
                             Actividades turísticas que pueden realizarse:
                             <ul>

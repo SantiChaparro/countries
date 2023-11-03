@@ -15,13 +15,12 @@ import NotFound from './components/NotFound/NotFound';
 function App() {
   
   const location = useLocation();
-  console.log(location)
-
+  
   return (
    <div>
       {location.pathname !== "/" && <NavBar/>}
     <Routes>
-      <Route exact path='/' element={<Landing/>}/>
+      <Route path='/' element={<Landing/>}/>
       <Route path='/home' element={<Home/>}/>
       <Route path='/detail/:id' element={<Detail/>}/>
       <Route path='/create' element={<Form/>}/>

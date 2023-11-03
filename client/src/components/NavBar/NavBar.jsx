@@ -7,11 +7,11 @@ const NavBar = () => {
     <div className={style.navBarContainer}>
       <div className={style.NavBar}>
         <NavLink to="/home">HOME</NavLink>
-        <NavLink to="/create">FORM</NavLink>
+        <NavLink to="/create">CREAR  ACTIVIDAD</NavLink>
         <SearchBar />
       </div>
     </div>
   );
-};
+}; 
 
 export default NavBar;

@@ -22,7 +22,7 @@ const validate = (form) => {
 
 const Form = () => {
   const country = useSelector((state) => state.country);
-  const allActivities = useSelector((state) => state.activities);
+ // const allActivities = useSelector((state) => state.activities);
 
   const [paises, setPaises] = useState([]);
 
@@ -64,9 +64,8 @@ const Form = () => {
       setAux(true);
       if (errors) {
         const errorMessages = Object.keys(errors).join(" y el campo ");
-        console.log(errorMessages);
         setMessage(
-          "Existe algún error presente en el campo" + " " + errorMessages
+        "Existe algún error presente en el campo" + " " + errorMessages
         );
       }
     }
@@ -112,14 +111,13 @@ const Form = () => {
         setPaises([]);
         setInput("");
         setSubmitError(null);
-        //setErrors("")// Limpiar el estado de error si la solicitud es exitosa
         setMessage("Actividad creada con éxito");
       } catch (error) {
         console.error("Error al agregar la actividad:", error);
         setSubmitError(
           error.response ? error.response.data.error : error.message
         );
-        console.log(submitError);
+       
       }
     }
   };
